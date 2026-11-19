@@ -285,10 +285,10 @@ section{padding:14px}
 <div id="adminView" class="view-panel" hidden><section id="adm" class="noprint"></section><section id="ud" class="noprint" hidden></section></div>
 </main>
 
-<div id="login" hidden><div class="lc"><h2>خوش آمدید</h2><p>اسم و تخلص و صنف خود را بنویسید تا صفحهٔ شخصی شما باز شود.</p><input id="ln" placeholder="اسم و تخلص" autocomplete="name"><select id="lc" hidden style="width:100%;padding:10px"></select><input id="lx" hidden placeholder="صنف" style="width:100%;padding:10px"><button class="pri" id="lgo">ورود</button><div id="lp"></div></div></div>
+<div id="login" hidden><div class="lc"><h2>خوش آمدید</h2><p>اسم، تخلص و صنف خود را بنویسید تا صفحهٔ شخصی شما باز شود.</p><input id="ln" placeholder="اسم" autocomplete="given-name"><input id="lf" placeholder="تخلص" autocomplete="family-name"><select id="lc" hidden style="width:100%;padding:10px"></select><input id="lx" hidden placeholder="صنف" style="width:100%;padding:10px"><button class="pri" id="lgo">ورود</button><div id="lp"></div></div></div>
 <div id="weekMenu" hidden role="menu" style="position:fixed;z-index:120;min-width:180px;padding:6px;background:var(--paper);border:1.5px solid var(--line);border-radius:6px;box-shadow:0 14px 30px -12px rgba(0,0,0,.45)"><button id="weekDelete" role="menuitem" class="on0" style="width:100%">حذف این هفته</button></div>
 <script>
-const FB={p:"",k:""}; // Firebase project id + web API key (for cross-device admin)
+const FB={p:"barga-amal",k:"AIzaSyBV7wFn2GRiLbOenMBL8LZGJx7SVzVpxxI"}; // Firebase project id + web API key (for cross-device admin)
 const fu=p=>`https://firestore.googleapis.com/v1/projects/${FB.p}/databases/(default)/documents/${p}?key=${FB.k}`;
 async function rd(p){if(!FB.p)try{return JSON.parse(localStorage.getItem("loc:"+p))}catch(e){return null}try{const r=await fetch(fu(p));return r.ok?JSON.parse((await r.json()).fields.j.stringValue):null}catch(e){return null}}
 async function wr(p,o){const j=JSON.stringify(o);try{localStorage.setItem("loc:"+p,j)}catch(e){}if(FB.p)try{await fetch(fu(p),{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({fields:{j:{stringValue:j}}})})}catch(e){}}
@@ -300,8 +300,8 @@ document.getElementById("login").hidden=false;
 var lp=document.getElementById("lp"),lc=document.getElementById("lc"),lx=document.getElementById("lx");
 rd("cfg/main").then(function(c){var a=(c&&c.cls)||[];if(a.length){var o=document.createElement("option");o.value="";o.textContent="صنف را انتخاب کنید";lc.appendChild(o);a.forEach(function(x){o=document.createElement("option");o.textContent=x;lc.appendChild(o)});lc.hidden=false}else lx.hidden=false});
 if(L.length){lp.innerHTML="<p>کاربران این دستگاه:</p>";L.forEach(function(n){var b=document.createElement("button");b.textContent=n;b.onclick=function(){enter(n)};lp.appendChild(b)})}
-var ln=document.getElementById("ln");function go(){if(!lc.hidden&&!lc.value){lc.focus();return}enter(ln.value,lc.hidden?lx.value.trim():lc.value)}
-document.getElementById("lgo").onclick=go;ln.onkeydown=function(e){if(e.key==="Enter")go()};ln.focus();
+var ln=document.getElementById("ln"),lf=document.getElementById("lf");function go(){if(!ln.value.trim()){ln.focus();return}if(!lf.value.trim()){lf.focus();return}if(!lc.hidden&&!lc.value){lc.focus();return}enter(ln.value.trim()+" "+lf.value.trim(),lc.hidden?lx.value.trim():lc.value)}
+document.getElementById("lgo").onclick=go;ln.onkeydown=lf.onkeydown=function(e){if(e.key==="Enter")go()};ln.focus();
 })();
 </script>
 <script>if(!window.PROF)throw new Error("login");
@@ -315,7 +315,7 @@ var ST={cls:[],adm:[],pts:{},hid:[],cus:[],qs:[]};const BASE=COLS.length;const Z
 const MAXV={p:4,n:6,c:3,a:2},PD="۰۱۲۳۴۵";
 const T=(t,v)=>!v?"":t==="p"?["","ادا","قضاء","معذور"][v]:t==="n"?PD[v]:t==="c"?(v===1?"✓":"✗"):"ادا";
 const K=(t,v)=>!v?0:t==="p"?v:t==="c"&&v===2?3:1;
-let S={cells:{},f:{},tf:{},qr:{},zk:{n:0},qd:{},wa:"",theme:""};
+let S={cells:{},f:{},tf:{},qr:{},zk:{n:0},qd:{},wa:"",theme:"",qp:{},qs:[],qn:1};
 const KEY="ibadah-week-v2:"+PROF;
 try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
 if(!S.f)S.f={};if(!S.f.name)S.f.name=PROF;
@@ -370,8 +370,8 @@ function hideCols(){const H=ST.hid||[];document.querySelectorAll("#grid tr").for
 const VIS=()=>COLS.map((c,j)=>j).filter(j=>!(ST.hid||[]).includes(j));
 const dn=(t,v)=>t==="p"?(v===1?1:0):t==="n"?(v>0?1:0):(v===1?1:0);
 function stat(u){const c=u.c||{},V=VIS(),col={},day=[0,0,0,0,0,0,0];let sc=0,mx=0;V.forEach(j=>{let t=0,dnSum=0;for(let i=0;i<7;i++){const v=c[i+"-"+j]||0,d=dn(COLS[j][3],v);dnSum+=d;day[i]+=d;t+=COLS[j][3]==="n"?(+v||0):d}col[j]=t;const p=+(ST.pts||{})[j]||0;mx+=p;sc+=p*dnSum/7});return{col,day,sc:Math.round(sc*10)/10,mx}}
-window.sync=()=>wr("users/"+encodeURIComponent(PROF),{n:PROF,c:S.cells,f:S.f,qp:S.qp||{},tc:TW().w.reduce((a,w)=>a+Object.values(w.ok).filter(Boolean).length,0)});
-const wl=()=>$("wn").textContent=PROF+(S.f.binesh?" — "+S.f.binesh:"");wl();$("binesh").addEventListener("input",wl);
+window.sync=()=>wr("users/"+encodeURIComponent(PROF),{n:PROF,c:S.cells,f:S.f,qp:S.qp||{},s:S,tc:TW().w.reduce((a,w)=>a+Object.values(w.ok).filter(Boolean).length,0)});
+const wl=()=>$("wn").textContent=PROF+(S.f.binesh?" — "+S.f.binesh:"");wl();$("binesh").addEventListener("input",wl);(function(){const w=$("wn"),b=document.createElement("button");b.type="button";b.textContent="تغییر کاربر";b.style.marginInlineStart="8px";b.onclick=()=>{try{localStorage.removeItem("ibadah-cur")}catch(e){}location.reload()};w.parentNode.insertBefore(b,w.nextSibling)})();
 const kx=()=>$("kahf").classList.toggle("x",$("kahf").value.startsWith("نه"));$("kahf").addEventListener("change",kx);kx();
 
 /* tafakur */
@@ -379,7 +379,7 @@ let weekMenuTarget="";
 function showWeekMenu(selectId,x,y){weekMenuTarget=selectId;const menu=$("weekMenu");menu.hidden=false;const left=Math.min(x,innerWidth-menu.offsetWidth-8),top=Math.min(y,innerHeight-menu.offsetHeight-8);menu.style.left=Math.max(8,left)+"px";menu.style.top=Math.max(8,top)+"px"}
 function bindWeekActions(selectId,kind){const select=$(selectId),menuTrigger=e=>{e.preventDefault();const r=select.getBoundingClientRect();showWeekMenu(kind,r.left+r.width/2,r.bottom)};select.addEventListener("contextmenu",menuTrigger);let hold=0;select.addEventListener("pointerdown",e=>{clearTimeout(hold);if(e.pointerType!=="mouse")hold=setTimeout(()=>menuTrigger(e),650)});select.addEventListener("pointerup",()=>clearTimeout(hold));select.addEventListener("pointercancel",()=>clearTimeout(hold));select.addEventListener("pointerleave",()=>clearTimeout(hold))}
 document.addEventListener("click",e=>{if(!e.target.closest("#weekMenu"))$("weekMenu").hidden=true});
-$("weekDelete").onclick=()=>{$("weekMenu").hidden=true;if(weekMenuTarget==="tf"){const t=TW();if(!confirm("این هفته حذف شود؟"))return;if(t.w.length>1){t.w.splice(t.cur,1);t.cur=Math.min(t.cur,t.w.length-1)}else t.w[0]={d:{},ok:{}};tfDay=0;tfRender();save()}else if(weekMenuTarget==="quran"){if(!isA()){alert("فقط ادمین می‌تواند هفته‌ها را حذف کند.");return}const n=ST.qn||1,w=QW;if(!confirm("هفته حذف شود؟"))return;if(n>1){ST.qs=(ST.qs||[]).filter(e=>e.w!==w).map(e=>e.w>w?{...e,w:e.w-1}:e);ST.qn=n-1;QW=Math.min(w,n-1);for(const key of Object.keys(S.qp||{})){const m=key.match(/^(.+)-(\d+)$/);if(!m)continue;const wk=+m[1];if(wk===w)delete S.qp[key];else if(wk>w){S.qp[(wk-1)+"-"+m[2]]=S.qp[key];delete S.qp[key]}}}else{ST.qn=1;QW=1;ST.qs=[];S.qp={}}save();wr("cfg/main",ST);qRender()}};
+$("weekDelete").onclick=()=>{$("weekMenu").hidden=true;if(weekMenuTarget==="tf"){const t=TW();if(!confirm("این هفته حذف شود؟"))return;if(t.w.length>1){t.w.splice(t.cur,1);t.cur=Math.min(t.cur,t.w.length-1)}else t.w[0]={d:{},ok:{}};tfDay=0;tfRender();save()}else if(weekMenuTarget==="quran"){const n=S.qn||1,w=QW;if(!confirm("هفته حذف شود؟"))return;if(n>1){S.qs=(S.qs||[]).filter(e=>e.w!==w).map(e=>e.w>w?{...e,w:e.w-1}:e);S.qn=n-1;QW=Math.min(w,n-1);for(const key of Object.keys(S.qp||{})){const m=key.match(/^(.+)-(\d+)$/);if(!m)continue;const wk=+m[1];if(wk===w)delete S.qp[key];else if(wk>w){S.qp[(wk-1)+"-"+m[2]]=S.qp[key];delete S.qp[key]}}}else{S.qn=1;QW=1;S.qs=[];S.qp={}}save();qRender()}};
 const TW=()=>{if(!S.tw){S.tw={cur:0,w:[{d:{},ok:{}}]};Object.keys(S.tf||{}).forEach(i=>S.tw.w[0].d[i]=E(S.tf[i]).replace(/\n/g,"<br>"))}return S.tw};
 const WK=()=>TW().w[TW().cur];let tfDay=0;
 function tfRender(){const t=TW(),w=WK();$("tfWk").innerHTML=t.w.map((_,i)=>`<option value="${i}">${weekLabel(i+1)}</option>`).join("");$("tfWk").value=t.cur;
@@ -441,32 +441,32 @@ async function adm(){const A=$("adm");
  if($("sv"))$("sv").onclick=()=>{if(AT===1){ST.pts={};A.querySelectorAll("[data-p]").forEach(i=>ST.pts[i.dataset.p]=+i.value||0);hideCols()}else{const a=[...A.querySelectorAll("[data-a]")].filter(i=>i.checked).map(i=>i.dataset.a);if(!a.includes(PROF))a.push(PROF);ST.adm=a}wr("cfg/main",ST);adm()};
  A.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>{const u=us[b.dataset.u],s=stat(u),d=$("ud");if(!d.hidden&&d.dataset.k===b.dataset.u){d.hidden=true;return}d.dataset.k=b.dataset.u;d.hidden=false;d.innerHTML=`<button id="udx" style="float:left">✕</button><h2>${E(u.n)}</h2><div class="wrap"><table class="at"><tr>${DAYS.map(x=>`<th>${x}</th>`).join("")}</tr><tr>${s.day.map(x=>`<td>${x} از ${V.length}</td>`).join("")}</tr></table></div><p>تفکر تأییدشده: ${u.tc||0} روز — قرآن خوانده‌شده: ${Object.values(u.qp||{}).filter(Boolean).length} روز</p>`;$("udx").onclick=()=>d.hidden=true;d.scrollIntoView({behavior:"smooth"})});
 }
-(async()=>{const c=await rd("cfg/main");if(c)ST=Object.assign(ST,c);colsApply();buildGrid();adminUI();sync()})();
+(async()=>{const c=await rd("cfg/main");if(c)ST=Object.assign(ST,c);colsApply();buildGrid();adminUI();let ok=true;try{if(FB.p&&!Object.keys(S.cells||{}).length&&!Object.keys(S.qp||{}).length&&!(S.qs||[]).length){const r=await fetch(fu("users/"+encodeURIComponent(PROF)));if(r.ok){const u=JSON.parse((await r.json()).fields.j.stringValue);if(u&&u.s){const lb=S.f&&S.f.binesh;S=Object.assign(S,u.s);if(!S.f)S.f={};if(!S.f.name)S.f.name=PROF;if(lb)S.f.binesh=lb;S.qp=S.qp||{};S.qs=S.qs||[];S.qn=S.qn||1;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}full();wl()}}else if(r.status!==404)ok=false}}catch(e){ok=false}if(ok)sync()})();
 
 /* quran */
-S.qp=S.qp||{};let PDF=null,QW=1,QD=null,BK=0;
-const qk=(w,d)=>w+"-"+d,QA=(w,d)=>(ST.qs||[]).find(e=>e.w===w&&e.d===d);
+S.qp=S.qp||{};S.qs=S.qs||[];S.qn=S.qn||1;let PDF=null,QW=1,QD=null,BK=0;
+const qk=(w,d)=>w+"-"+d,QA=(w,d)=>(S.qs||[]).find(e=>e.w===w&&e.d===d);
 const PB="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/",PN=["quran.pdf","Quran.pdf","QURAN.pdf","قرآن کریم.pdf","قرآن-کریم.pdf"];
 async function loadPdf(){if(PDF)return;if(!window.pdfjsLib)await new Promise((ok,no)=>{const x=document.createElement("script");x.src=PB+"pdf.min.js";x.onload=ok;x.onerror=no;document.head.appendChild(x)});pdfjsLib.GlobalWorkerOptions.workerSrc=PB+"pdf.worker.min.js";for(const n of PN)try{PDF=await pdfjsLib.getDocument(encodeURI(n)).promise;return}catch(e){}$("qfb").hidden=false;throw 0}
 async function shot(p,sc,c){await loadPdf();const pg=await PDF.getPage(p),vp=pg.getViewport({scale:sc});c.width=vp.width;c.height=vp.height;await pg.render({canvasContext:c.getContext("2d"),viewport:vp}).promise}
-function qRender(){const n=ST.qn||1;QW=Math.min(QW,n);$("qwk").innerHTML=Array.from({length:n},(_,i)=>`<option value="${i+1}">${weekLabel(i+1)}</option>`).join("");$("qwk").value=QW;$("qnw").hidden=!isA();
- $("qr").innerHTML=DAYS.map((d,i)=>{const e=QA(QW,i),v=S.qp[qk(QW,i)];return`<div class="qe2"><b>${d}</b>${isA()&&e?`<button class="x" data-x="${i}" title="حذف صفحه">✕</button>`:""}${e?`<canvas data-p="${e.p}" title="بزرگ‌نمایی"></canvas><small>صفحه ${e.p}</small>`:'<div class="ph">صفحه‌ای تعیین نشده</div>'}<span>قرآن کریم با ترجمه تلاوت شد</span><div class="row"><button data-y="${i}" class="${v===true?"on1":""}">خوانده شد</button><button data-n="${i}" class="${v===false?"on0":""}">نخوانده شد</button></div>${isA()?`<button data-s="${i}">انتخاب صفحه از کتاب</button>`:""}</div>`}).join("");
+function qRender(){const n=S.qn||1;QW=Math.min(QW,n);$("qwk").innerHTML=Array.from({length:n},(_,i)=>`<option value="${i+1}">${weekLabel(i+1)}</option>`).join("");$("qwk").value=QW;$("qnw").hidden=false;
+ $("qr").innerHTML=DAYS.map((d,i)=>{const e=QA(QW,i),v=S.qp[qk(QW,i)];return`<div class="qe2"><b>${d}</b>${e?`<button class="x" data-x="${i}" title="حذف صفحه">✕</button>`:""}${e?`<canvas data-p="${e.p}" title="بزرگ‌نمایی"></canvas><small>صفحه ${e.p}</small>`:'<div class="ph">صفحه‌ای تعیین نشده</div>'}<span>قرآن کریم با ترجمه تلاوت شد</span><div class="row"><button data-y="${i}" class="${v===true?"on1":""}">خوانده شد</button><button data-n="${i}" class="${v===false?"on0":""}">نخوانده شد</button></div><button data-s="${i}">انتخاب صفحه از کتاب</button></div>`}).join("");
  const q=$("qr");q.querySelectorAll("canvas").forEach(c=>{shot(+c.dataset.p,.8,c).catch(()=>{});c.onclick=async()=>{await shot(+c.dataset.p,1.8,$("qcv"));$("qv").hidden=false}});
- q.querySelectorAll("[data-x]").forEach(b=>b.onclick=()=>{ST.qs=(ST.qs||[]).filter(e=>!(e.w===QW&&e.d===+b.dataset.x));wr("cfg/main",ST);qRender()});
+ q.querySelectorAll("[data-x]").forEach(b=>b.onclick=()=>{S.qs=(S.qs||[]).filter(e=>!(e.w===QW&&e.d===+b.dataset.x));save();qRender()});
  q.querySelectorAll("[data-y]").forEach(b=>b.onclick=()=>{S.qp[qk(QW,b.dataset.y)]=true;save();qRender()});q.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{S.qp[qk(QW,b.dataset.n)]=false;save();qRender()});
  q.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{QD=+b.dataset.s;const e=QA(QW,QD);BK=e?Math.floor((e.p-1)/2):0;$("bk").hidden=false;spread();$("bk").scrollIntoView({behavior:"smooth"})})}
 async function spread(){try{await loadPdf()}catch(x){$("bk").hidden=true;return}
  BK=Math.max(0,Math.min(BK,Math.floor((PDF.numPages-1)/2)));const a=BK*2+1,b=$("bb");b.style.animation="none";b.offsetWidth;b.style.animation="";
  [a,a+1].forEach((p,i)=>{const c=$(i?"bl":"br");c.style.visibility=p>PDF.numPages?"hidden":"visible";if(p<=PDF.numPages){shot(p,1.1,c);c.onclick=()=>pick(p)}});$("bn").textContent=`صفحه ${a}–${a+1} از ${PDF.numPages} — برای انتخاب، روی صفحه بزنید (${DAYS[QD]})`}
-function pick(p){ST.qs=(ST.qs||[]).filter(e=>!(e.w===QW&&e.d===QD)).concat({w:QW,d:QD,p});wr("cfg/main",ST);$("bk").hidden=true;qRender()}
+function pick(p){S.qs=(S.qs||[]).filter(e=>!(e.w===QW&&e.d===QD)).concat({w:QW,d:QD,p});save();$("bk").hidden=true;qRender()}
 $("qv").onclick=()=>$("qv").hidden=true;$("bnx").onclick=()=>{BK++;spread()};$("bpv").onclick=()=>{BK--;spread()};$("bx").onclick=()=>$("bk").hidden=true;$("bj").onchange=()=>{BK=Math.floor(($("bj").value-1)/2);spread()};
-$("qwk").onchange=()=>{QW=+$("qwk").value;qRender()};bindWeekActions("qwk","quran");$("qnw").onclick=()=>{ST.qn=(ST.qn||1)+1;QW=ST.qn;wr("cfg/main",ST);qRender()};
+$("qwk").onchange=()=>{QW=+$("qwk").value;qRender()};bindWeekActions("qwk","quran");$("qnw").onclick=()=>{S.qn=(S.qn||1)+1;QW=S.qn;save();qRender()};
 $("qReset").onclick=()=>{if(confirm("تلاوت قرآن پاک شود؟")){S.qp={};save();qRender()}};
 $("qf").onchange=async e=>{const f=e.target.files[0];if(!f)return;PDF=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;$("qfb").hidden=true;qRender()};
 qRender();
 
 function full(){stopAuto();buildGrid();zr();tfRender();qRender();$("zikr").value=S.zk.z||"سبحان الله";$("goal").value=S.zk.g??(ZG[$("zikr").value]||"");FIELDS.forEach(id=>$(id).value=S.f[id]||"")}
-$("resetAll").onclick=()=>{if(confirm("کل صفحه (جدول، تسبیح، تفکر، تلاوت و فیلدها) پاک شود؟")){S={cells:{},f:{name:PROF},tf:{},qr:{},qd:{},wa:S.wa,zk:{n:0},theme:S.theme};save();full()}};
+$("resetAll").onclick=()=>{if(confirm("کل صفحه (جدول، تسبیح، تفکر، تلاوت و فیلدها) پاک شود؟")){S={cells:{},f:{name:PROF},tf:{},qr:{},qd:{},wa:S.wa,zk:{n:0},theme:S.theme,qp:{},qs:[],qn:1};save();full()}};
 
 /* ---------- export (canvas drawn, so Persian renders correctly) ---------- */
 const FF='Vazirmatn,Tahoma,sans-serif';
