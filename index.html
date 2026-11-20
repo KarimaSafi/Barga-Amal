@@ -222,6 +222,69 @@ section{padding:14px}
 .admin-action{grid-template-columns:1fr}
 .admin-action button{width:100%}
 }
+
+/* ===== v3: mobile + tidy ===== */
+.view-tabs{grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+.view-tabs button{white-space:nowrap}
+#who{gap:8px;padding:4px 6px 4px 12px;min-width:0}
+#who #wn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+#who button{min-height:32px;padding:0 12px;font-size:.8rem;border:0;border-radius:6px;background:var(--ada-bg);color:var(--ada);margin:0!important;white-space:nowrap}
+#who button:hover{background:var(--acc);color:var(--paper)}
+.stp{display:flex;direction:ltr}.stp button{display:none}.kseg{display:none}
+#tfe{text-align:start}
+#tafView .hdr{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center}
+#tafView .hdr h2{margin:0}
+#tafView .hdr select,#tafView .hdr>button{height:40px;min-height:40px}
+#tafView .hdr summary{display:flex;align-items:center;justify-content:center;height:40px}
+#tafView .hdr .wm .pp{inset-inline-start:auto;inset-inline-end:0}
+#tafView .days{grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-bottom:12px}
+#tafView .days button{grid-column:auto!important;padding:2px 4px;font-size:.85rem;white-space:nowrap;min-height:40px}
+.tbar{display:flex;margin:0 0 10px}
+.fmt{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;flex:1;min-width:0}
+#tafView .fmt button{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:52px;padding:2px 4px;font-size:1.05rem;line-height:1.25}
+.fmt button small{font-size:.68rem;font-weight:600;color:var(--mute);line-height:1.2}.fmt button:hover small{color:inherit}
+#tafView #tfOk{width:100%;min-height:46px;margin-top:10px;font-size:1rem}
+#tafView #tfOk:not(.on1){background:var(--acc);color:var(--paper)}
+@media(max-width:700px){
+.toolbar{flex-wrap:nowrap;gap:8px}
+#who{flex:1 1 auto}#who #wn{flex:1}
+.view-tabs{gap:2px;padding:3px}
+.view-tabs button{min-height:40px;padding:0 2px;font-size:clamp(.7rem,3.3vw,.9rem)}
+#trackerView .form-scroll>.top{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px 10px}
+#trackerView .form-scroll>.top .fld{font-size:.8rem}
+#trackerView .form-scroll>.top input,#trackerView .form-scroll>.top select{height:44px;font-size:1rem;padding:6px 8px}
+.stp button{display:grid;place-items:center;flex:0 0 46px;height:44px;min-height:44px;padding:0;font-size:1.5rem;line-height:1;border-radius:0}
+.stp button:first-child{border-radius:6px 0 0 6px;border-right-width:0}
+.stp button:last-child{border-radius:0 6px 6px 0;border-left-width:0}
+#trackerView .form-scroll>.top .stp input{flex:1;min-width:0;border-radius:0;text-align:center;-moz-appearance:textfield;appearance:textfield}
+.stp input::-webkit-outer-spin-button,.stp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#trackerView .form-scroll>.top label.fld:has(#name){grid-column:1/-1}
+#trackerView .form-scroll>.top label.fld:has(#kahf){grid-column:1/-1;order:2}
+#kahf{display:none}
+.kseg{display:grid;grid-template-columns:1fr 1fr 56px;gap:6px}
+.kseg button{height:44px;min-height:44px;padding:0 4px;font-size:.85rem;display:grid;place-items:center;text-align:center;white-space:nowrap}
+.kseg button:last-child{font-size:1.4rem;line-height:1}
+.kseg button.on{background:var(--acc);color:var(--paper)}
+.kseg button:last-child.on{background:var(--ozr-bg);color:var(--ozr);border-color:var(--ozr)}
+.qr2{grid-template-columns:1fr!important}
+.qe2:nth-child(n){grid-column:auto!important}
+.qe2{display:grid;grid-template-columns:1fr auto auto;gap:8px 10px;align-items:center;text-align:start;padding:12px}
+.qe2 b{grid-column:1;grid-row:1;font-size:1.05rem}
+.qe2>button[data-s]{grid-column:2;grid-row:1;min-height:36px!important;font-size:.8rem!important}
+.qe2 .x{position:static;grid-column:3;grid-row:1}
+.qe2 canvas,.qe2 .ph{grid-column:1/-1;grid-row:2;justify-self:center}
+.qe2 .ph{width:100%}
+.qe2 small{grid-column:1/-1;grid-row:3;text-align:center}
+.qe2 span{grid-column:1/-1;grid-row:4;text-align:center}
+.qe2 .row{grid-column:1/-1;grid-row:5;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0}
+#tafView .hdr{grid-template-columns:repeat(3,minmax(0,1fr))}
+#tafView .hdr h2{grid-column:1/-1}
+#tafView .days{grid-template-columns:repeat(4,minmax(0,1fr))}
+.fmt{grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+#tafView .fmt button{min-height:50px;padding:2px 0;font-size:.95rem}
+.fmt button small{font-size:.6rem}
+.qe2 .ph{height:44px}
+}
 </style>
 </head>
 <body>
@@ -262,7 +325,7 @@ section{padding:14px}
 <section class="noprint">
 <h2>تلاوت قرآن کریم</h2>
 <div class="row" style="margin:0 0 10px"><select id="qwk" aria-label="هفته"></select><button id="qnw" hidden>هفته جدید</button></div>
-<div id="qfb" hidden class="sub">فایل <b>quran.pdf</b> کنار index.html پیدا نشد. برای امتحان، PDF را از همین دستگاه انتخاب کنید: <input type="file" id="qf" accept="application/pdf"></div>
+<div id="qfb" hidden class="sub">کتاب قرآن بارگذاری نشد<span id="qerr" dir="ltr"></span>. فایل <b>quran.pdf</b> باید کنار index.html باشد و اینترنت وصل باشد. برای امتحان، PDF را از همین دستگاه انتخاب کنید: <input type="file" id="qf" accept="application/pdf"></div>
 <div class="qr2" id="qr"></div>
 <div class="row"><button id="qReset">پاک کردن تلاوت</button></div>
 <div id="bk" hidden><div class="row"><b id="bn" style="flex:1"></b><input id="bj" type="number" min="1" placeholder="رفتن به صفحه" style="width:130px"><button id="bpv">صفحهٔ قبل</button><button id="bnx">صفحهٔ بعد</button><button id="bx">بستن</button></div><div class="book" id="bb"><canvas id="br"></canvas><canvas id="bl"></canvas></div></div>
@@ -276,10 +339,11 @@ section{padding:14px}
 </section>
 </div>
 <div id="tafView" class="view-panel" hidden><section class="noprint">
-<div class="row" style="margin:0 0 10px"><h2 style="margin:0;flex:1">تفکر</h2><select id="tfWk" aria-label="هفته"></select><details class="wm"><summary>هفته‌ها</summary><div class="pp"><button id="tfNew">هفته جدید</button><button id="tfDel">پاک کردن هفته</button></div></details><button id="gTog">باغ تفکر</button></div>
+<div class="row hdr" style="margin:0 0 10px"><h2 style="margin:0;flex:1">تفکر</h2><select id="tfWk" aria-label="هفته"></select><details class="wm"><summary>هفته‌ها</summary><div class="pp"><button id="tfNew">هفته جدید</button><button id="tfDel">پاک کردن هفته</button></div></details><button id="gTog">باغ تفکر</button></div>
 <div id="tfEd"><div class="days" id="tfDays"></div>
-<div id="tfe" contenteditable dir="auto" data-ph="امروز درباره چه چیزی تفکر کردید؟"></div>
-<div class="row tb" style="margin-top:8px"><button data-c="bold"><b>B</b></button><button data-c="italic"><i>I</i></button><button data-c="underline"><u>U</u></button><button data-c="formatBlock" data-v="h3">H</button><button data-c="insertUnorderedList">•</button><button id="tfI">تصویر</button><button id="tfVid">ویدیو</button><span style="flex:1"></span><button id="tfOk"></button><input type="file" id="tfImg" accept="image/*" hidden></div></div>
+<div class="tbar"><div class="fmt" role="toolbar" aria-label="قالب‌بندی متن"><button data-c="bold" title="پررنگ"><b>B</b><small>پررنگ</small></button><button data-c="italic" title="کج"><i>I</i><small>کج</small></button><button data-c="underline" title="زیرخط"><u>U</u><small>زیرخط</small></button><button data-c="formatBlock" data-v="h3" title="عنوان بزرگ"><b>H</b><small>عنوان</small></button><button data-c="insertUnorderedList" title="فهرست نقطه‌ای"><span>•</span><small>فهرست</small></button><button id="tfI" title="افزودن تصویر"><span>🖼</span><small>تصویر</small></button><button id="tfVid" title="افزودن ویدیو"><span>▶</span><small>ویدیو</small></button></div><input type="file" id="tfImg" accept="image/*" hidden></div>
+<div id="tfe" contenteditable dir="rtl" data-ph="امروز درباره چه چیزی تفکر کردید؟"></div>
+<button id="tfOk"></button></div>
 <div id="tfGd" hidden><svg id="gd" viewBox="0 0 800 400"></svg><p class="sub">کلمات تفکرهای تأییدشده: <b id="gl">0</b></p></div>
 </section></div>
 <div id="adminView" class="view-panel" hidden><section id="adm" class="noprint"></section><section id="ud" class="noprint" hidden></section></div>
@@ -327,9 +391,9 @@ document.querySelectorAll("[data-panel]").forEach(button=>{button.onclick=()=>{d
 
 /* theme */
 const dark=()=>document.documentElement.dataset.theme?document.documentElement.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
-function applyTheme(){let theme=S.theme;try{theme=localStorage.getItem("ibadah-theme")||S.theme||"dark";if(theme)localStorage.setItem("ibadah-theme",theme)}catch(e){}if(theme)document.documentElement.dataset.theme=theme;else delete document.documentElement.dataset.theme;$("tL").className=dark()?"":"on";$("tD").className=dark()?"on":""}
+function applyTheme(){let theme="light";try{theme=localStorage.getItem("ibadah-theme2")||"light"}catch(e){}if(theme)document.documentElement.dataset.theme=theme;else delete document.documentElement.dataset.theme;$("tL").className=dark()?"":"on";$("tD").className=dark()?"on":""}
 applyTheme();
-$("tL").onclick=()=>{S.theme="light";try{localStorage.setItem("ibadah-theme","light")}catch(e){}applyTheme();save()};$("tD").onclick=()=>{S.theme="dark";try{localStorage.setItem("ibadah-theme","dark")}catch(e){}applyTheme();save()};
+$("tL").onclick=()=>{S.theme="light";try{localStorage.setItem("ibadah-theme2","light")}catch(e){}applyTheme();save()};$("tD").onclick=()=>{S.theme="dark";try{localStorage.setItem("ibadah-theme2","dark")}catch(e){}applyTheme();save()};
 
 FIELDS.forEach(id=>{const el=$(id);el.value=S.f[id]||"";el.oninput=el.onchange=()=>{S.f[id]=el.value;save()}});
 
@@ -373,6 +437,8 @@ function stat(u){const c=u.c||{},V=VIS(),col={},day=[0,0,0,0,0,0,0];let sc=0,mx=
 window.sync=()=>wr("users/"+encodeURIComponent(PROF),{n:PROF,c:S.cells,f:S.f,qp:S.qp||{},s:S,tc:TW().w.reduce((a,w)=>a+Object.values(w.ok).filter(Boolean).length,0)});
 const wl=()=>$("wn").textContent=PROF+(S.f.binesh?" — "+S.f.binesh:"");wl();$("binesh").addEventListener("input",wl);(function(){const w=$("wn"),b=document.createElement("button");b.type="button";b.textContent="تغییر کاربر";b.style.marginInlineStart="8px";b.onclick=()=>{try{localStorage.removeItem("ibadah-cur")}catch(e){}location.reload()};w.parentNode.insertBefore(b,w.nextSibling)})();
 const kx=()=>$("kahf").classList.toggle("x",$("kahf").value.startsWith("نه"));$("kahf").addEventListener("change",kx);kx();
+(function(){["week","qazaUnknown","tahajjud"].forEach(id=>{const el=$(id),w=document.createElement("div");w.className="stp";const mk=(t,d)=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.setAttribute("aria-label",d>0?"افزایش":"کاهش");b.onclick=()=>{const mn=el.min!==""?+el.min:-Infinity,mx=el.max!==""?+el.max:Infinity;let v=(parseInt(el.value,10)||0)+d;v=Math.max(mn,Math.min(mx,v));el.value=v;el.dispatchEvent(new Event("input",{bubbles:true}))};return b};el.parentNode.insertBefore(w,el);w.append(mk("−",-1),el,mk("+",1))});
+const sel=$("kahf"),box=document.createElement("div");box.className="kseg";[["شنیده شد","شنیده شد"],["خوانده شد","خوانده شد"],["نه شنیده، نه خوانده","×"]].forEach(([v,t])=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.dataset.v=v;if(v.startsWith("نه"))b.setAttribute("aria-label",v);b.onclick=()=>{sel.value=sel.value===v?"":v;sel.dispatchEvent(new Event("change",{bubbles:true}));window.ks()};box.appendChild(b)});sel.parentNode.appendChild(box);window.ks=()=>box.querySelectorAll("button").forEach(b=>{const on=sel.value===b.dataset.v;b.classList.toggle("on",on);b.setAttribute("aria-pressed",String(on))});window.ks()})();
 
 /* tafakur */
 let weekMenuTarget="";
@@ -447,7 +513,8 @@ async function adm(){const A=$("adm");
 S.qp=S.qp||{};S.qs=S.qs||[];S.qn=S.qn||1;let PDF=null,QW=1,QD=null,BK=0;
 const qk=(w,d)=>w+"-"+d,QA=(w,d)=>(S.qs||[]).find(e=>e.w===w&&e.d===d);
 const PB="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/",PN=["quran.pdf","Quran.pdf","QURAN.pdf","قرآن کریم.pdf","قرآن-کریم.pdf"];
-async function loadPdf(){if(PDF)return;if(!window.pdfjsLib)await new Promise((ok,no)=>{const x=document.createElement("script");x.src=PB+"pdf.min.js";x.onload=ok;x.onerror=no;document.head.appendChild(x)});pdfjsLib.GlobalWorkerOptions.workerSrc=PB+"pdf.worker.min.js";for(const n of PN)try{PDF=await pdfjsLib.getDocument(encodeURI(n)).promise;return}catch(e){}$("qfb").hidden=false;throw 0}
+let LE=null;const qfail=e=>{$("qerr").textContent=e&&(e.message||e.name)?" ["+(e.message||e.name)+"]":"";$("qfb").hidden=false;$("qfb").scrollIntoView({behavior:"smooth",block:"center"})};
+async function loadPdf(){if(PDF)return;try{if(!window.pdfjsLib)await new Promise((ok,no)=>{const x=document.createElement("script");x.src=PB+"pdf.min.js";x.onload=ok;x.onerror=()=>no(new Error("pdf.js load failed"));document.head.appendChild(x)})}catch(e){qfail(e);throw e}pdfjsLib.GlobalWorkerOptions.workerSrc=PB+"pdf.worker.min.js";LE=null;for(const n of PN)try{PDF=await pdfjsLib.getDocument(encodeURI(n)).promise;return}catch(e){LE=LE||e}qfail(LE);throw 0}
 async function shot(p,sc,c){await loadPdf();const pg=await PDF.getPage(p),vp=pg.getViewport({scale:sc});c.width=vp.width;c.height=vp.height;await pg.render({canvasContext:c.getContext("2d"),viewport:vp}).promise}
 function qRender(){const n=S.qn||1;QW=Math.min(QW,n);$("qwk").innerHTML=Array.from({length:n},(_,i)=>`<option value="${i+1}">${weekLabel(i+1)}</option>`).join("");$("qwk").value=QW;$("qnw").hidden=false;
  $("qr").innerHTML=DAYS.map((d,i)=>{const e=QA(QW,i),v=S.qp[qk(QW,i)];return`<div class="qe2"><b>${d}</b>${e?`<button class="x" data-x="${i}" title="حذف صفحه">✕</button>`:""}${e?`<canvas data-p="${e.p}" title="بزرگ‌نمایی"></canvas><small>صفحه ${e.p}</small>`:'<div class="ph">صفحه‌ای تعیین نشده</div>'}<span>قرآن کریم با ترجمه تلاوت شد</span><div class="row"><button data-y="${i}" class="${v===true?"on1":""}">خوانده شد</button><button data-n="${i}" class="${v===false?"on0":""}">نخوانده شد</button></div><button data-s="${i}">انتخاب صفحه از کتاب</button></div>`}).join("");
@@ -455,7 +522,7 @@ function qRender(){const n=S.qn||1;QW=Math.min(QW,n);$("qwk").innerHTML=Array.fr
  q.querySelectorAll("[data-x]").forEach(b=>b.onclick=()=>{S.qs=(S.qs||[]).filter(e=>!(e.w===QW&&e.d===+b.dataset.x));save();qRender()});
  q.querySelectorAll("[data-y]").forEach(b=>b.onclick=()=>{S.qp[qk(QW,b.dataset.y)]=true;save();qRender()});q.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{S.qp[qk(QW,b.dataset.n)]=false;save();qRender()});
  q.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{QD=+b.dataset.s;const e=QA(QW,QD);BK=e?Math.floor((e.p-1)/2):0;$("bk").hidden=false;spread();$("bk").scrollIntoView({behavior:"smooth"})})}
-async function spread(){try{await loadPdf()}catch(x){$("bk").hidden=true;return}
+async function spread(){$("bn").textContent="در حال بارگذاری کتاب… (ممکن است چند لحظه طول بکشد)";try{await loadPdf()}catch(x){$("bk").hidden=true;return}
  BK=Math.max(0,Math.min(BK,Math.floor((PDF.numPages-1)/2)));const a=BK*2+1,b=$("bb");b.style.animation="none";b.offsetWidth;b.style.animation="";
  [a,a+1].forEach((p,i)=>{const c=$(i?"bl":"br");c.style.visibility=p>PDF.numPages?"hidden":"visible";if(p<=PDF.numPages){shot(p,1.1,c);c.onclick=()=>pick(p)}});$("bn").textContent=`صفحه ${a}–${a+1} از ${PDF.numPages} — برای انتخاب، روی صفحه بزنید (${DAYS[QD]})`}
 function pick(p){S.qs=(S.qs||[]).filter(e=>!(e.w===QW&&e.d===QD)).concat({w:QW,d:QD,p});save();$("bk").hidden=true;qRender()}
@@ -465,7 +532,7 @@ $("qReset").onclick=()=>{if(confirm("تلاوت قرآن پاک شود؟")){S.qp
 $("qf").onchange=async e=>{const f=e.target.files[0];if(!f)return;PDF=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;$("qfb").hidden=true;qRender()};
 qRender();
 
-function full(){stopAuto();buildGrid();zr();tfRender();qRender();$("zikr").value=S.zk.z||"سبحان الله";$("goal").value=S.zk.g??(ZG[$("zikr").value]||"");FIELDS.forEach(id=>$(id).value=S.f[id]||"")}
+function full(){stopAuto();buildGrid();zr();tfRender();qRender();$("zikr").value=S.zk.z||"سبحان الله";$("goal").value=S.zk.g??(ZG[$("zikr").value]||"");FIELDS.forEach(id=>$(id).value=S.f[id]||"");window.ks&&ks()}
 $("resetAll").onclick=()=>{if(confirm("کل صفحه (جدول، تسبیح، تفکر، تلاوت و فیلدها) پاک شود؟")){S={cells:{},f:{name:PROF},tf:{},qr:{},qd:{},wa:S.wa,zk:{n:0},theme:S.theme,qp:{},qs:[],qn:1};save();full()}};
 
 /* ---------- export (canvas drawn, so Persian renders correctly) ---------- */
