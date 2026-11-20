@@ -276,12 +276,17 @@ section{padding:14px}
 #tfPh[hidden]{display:none}
 #tfe{direction:rtl;text-align:right;unicode-bidi:plaintext}
 #tfEd{display:flex;flex-direction:column}
+@media(min-width:701px){#tafView #tfDays{order:0}.edw{order:1}.tbar{order:2;margin:10px 0 0}#tafView #tfOk{order:3}}
 @media(max-width:700px){
 #tfDays{order:0}.edw{order:1}.tbar{order:2;margin:10px 0 0}#tafView #tfOk{order:3}
 #tfe{min-height:260px}
 #tafView .days{grid-template-columns:repeat(12,minmax(0,1fr))}
 #tafView .days button:nth-child(-n+4){grid-column:span 3!important}
 #tafView .days button:nth-child(n+5){grid-column:span 4!important}
+#tafView .hdr>button{width:100%;min-width:0;padding:2px 4px;font-size:clamp(.68rem,3vw,.85rem);line-height:1.25;white-space:normal;overflow-wrap:anywhere}
+#tfI span{filter:grayscale(1) sepia(1) saturate(8) hue-rotate(100deg)}
+#trackerView tbody{direction:rtl}
+#trackerView td button{text-align:center;align-items:center;justify-content:center}
 }
 </style>
 </head>
