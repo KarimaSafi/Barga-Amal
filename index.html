@@ -230,7 +230,6 @@ section{padding:14px}
 #who #wn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 #who button{min-height:32px;padding:0 12px;font-size:.8rem;border:0;border-radius:6px;background:var(--ada-bg);color:var(--ada);margin:0!important;white-space:nowrap}
 #who button:hover{background:var(--acc);color:var(--paper)}
-.stp{display:flex;direction:ltr}.stp button{display:none}.kseg{display:none}
 #tfe{text-align:start}
 #tafView .hdr{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center}
 #tafView .hdr h2{margin:0}
@@ -250,22 +249,6 @@ section{padding:14px}
 #who{flex:1 1 auto}#who #wn{flex:1}
 .view-tabs{gap:2px;padding:3px}
 .view-tabs button{min-height:40px;padding:0 2px;font-size:clamp(.7rem,3.3vw,.9rem)}
-#trackerView .form-scroll>.top{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px 10px}
-#trackerView .form-scroll>.top .fld{font-size:.8rem}
-#trackerView .form-scroll>.top input,#trackerView .form-scroll>.top select{height:44px;font-size:1rem;padding:6px 8px}
-.stp button{display:grid;place-items:center;flex:0 0 46px;height:44px;min-height:44px;padding:0;font-size:1.5rem;line-height:1;border-radius:0}
-.stp button:first-child{border-radius:6px 0 0 6px;border-right-width:0}
-.stp button:last-child{border-radius:0 6px 6px 0;border-left-width:0}
-#trackerView .form-scroll>.top .stp input{flex:1;min-width:0;border-radius:0;text-align:center;-moz-appearance:textfield;appearance:textfield}
-.stp input::-webkit-outer-spin-button,.stp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-#trackerView .form-scroll>.top label.fld:has(#name){grid-column:1/-1}
-#trackerView .form-scroll>.top label.fld:has(#kahf){grid-column:1/-1;order:2}
-#kahf{display:none}
-.kseg{display:grid;grid-template-columns:1fr 1fr 56px;gap:6px}
-.kseg button{height:44px;min-height:44px;padding:0 4px;font-size:.85rem;display:grid;place-items:center;text-align:center;white-space:nowrap}
-.kseg button:last-child{font-size:1.4rem;line-height:1}
-.kseg button.on{background:var(--acc);color:var(--paper)}
-.kseg button:last-child.on{background:var(--ozr-bg);color:var(--ozr);border-color:var(--ozr)}
 .qr2{grid-template-columns:1fr!important}
 .qe2:nth-child(n){grid-column:auto!important}
 .qe2{display:grid;grid-template-columns:1fr auto auto;gap:8px 10px;align-items:center;text-align:start;padding:12px}
@@ -452,8 +435,7 @@ function stat(u){const c=u.c||{},V=VIS(),col={},day=[0,0,0,0,0,0,0];let sc=0,mx=
 window.sync=()=>wr("users/"+encodeURIComponent(PROF),{n:PROF,c:S.cells,f:S.f,qp:S.qp||{},s:S,tc:TW().w.reduce((a,w)=>a+Object.values(w.ok).filter(Boolean).length,0)});
 const wl=()=>$("wn").textContent=PROF+(S.f.binesh?" — "+S.f.binesh:"");wl();$("binesh").addEventListener("input",wl);(function(){const w=$("wn"),b=document.createElement("button");b.type="button";b.textContent="تغییر کاربر";b.style.marginInlineStart="8px";b.onclick=()=>{try{localStorage.removeItem("ibadah-cur")}catch(e){}location.reload()};w.parentNode.insertBefore(b,w.nextSibling)})();
 const kx=()=>$("kahf").classList.toggle("x",$("kahf").value.startsWith("نه"));$("kahf").addEventListener("change",kx);kx();
-(function(){["week","qazaUnknown","tahajjud"].forEach(id=>{const el=$(id),w=document.createElement("div");w.className="stp";const mk=(t,d)=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.setAttribute("aria-label",d>0?"افزایش":"کاهش");b.onclick=()=>{const mn=el.min!==""?+el.min:-Infinity,mx=el.max!==""?+el.max:Infinity;let v=(parseInt(el.value,10)||0)+d;v=Math.max(mn,Math.min(mx,v));el.value=v;el.dispatchEvent(new Event("input",{bubbles:true}))};return b};el.parentNode.insertBefore(w,el);w.append(mk("−",-1),el,mk("+",1))});
-const sel=$("kahf"),box=document.createElement("div");box.className="kseg";[["شنیده شد","شنیده شد"],["خوانده شد","خوانده شد"],["نه شنیده، نه خوانده","×"]].forEach(([v,t])=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.dataset.v=v;if(v.startsWith("نه"))b.setAttribute("aria-label",v);b.onclick=()=>{sel.value=sel.value===v?"":v;sel.dispatchEvent(new Event("change",{bubbles:true}));window.ks()};box.appendChild(b)});sel.parentNode.appendChild(box);window.ks=()=>box.querySelectorAll("button").forEach(b=>{const on=sel.value===b.dataset.v;b.classList.toggle("on",on);b.setAttribute("aria-pressed",String(on))});window.ks()})();
+
 
 /* tafakur */
 let weekMenuTarget="";
