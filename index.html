@@ -285,6 +285,21 @@ section{padding:14px}
 .fmt button small{font-size:.6rem}
 .qe2 .ph{height:44px}
 }
+
+/* ===== v4: tafakkur on phone ===== */
+#tfe:empty::before{content:none!important}
+.edw{position:relative}
+#tfPh{position:absolute;top:12px;right:12px;left:12px;direction:rtl;text-align:right;unicode-bidi:plaintext;color:var(--mute);line-height:1.9;pointer-events:none;z-index:1}
+#tfPh[hidden]{display:none}
+#tfe{direction:rtl;text-align:right;unicode-bidi:plaintext}
+#tfEd{display:flex;flex-direction:column}
+@media(max-width:700px){
+#tfDays{order:0}.edw{order:1}.tbar{order:2;margin:10px 0 0}#tafView #tfOk{order:3}
+#tfe{min-height:260px}
+#tafView .days{grid-template-columns:repeat(12,minmax(0,1fr))}
+#tafView .days button:nth-child(-n+4){grid-column:span 3!important}
+#tafView .days button:nth-child(n+5){grid-column:span 4!important}
+}
 </style>
 </head>
 <body>
@@ -342,7 +357,7 @@ section{padding:14px}
 <div class="row hdr" style="margin:0 0 10px"><h2 style="margin:0;flex:1">تفکر</h2><select id="tfWk" aria-label="هفته"></select><details class="wm"><summary>هفته‌ها</summary><div class="pp"><button id="tfNew">هفته جدید</button><button id="tfDel">پاک کردن هفته</button></div></details><button id="gTog">باغ تفکر</button></div>
 <div id="tfEd"><div class="days" id="tfDays"></div>
 <div class="tbar"><div class="fmt" role="toolbar" aria-label="قالب‌بندی متن"><button data-c="bold" title="پررنگ"><b>B</b><small>پررنگ</small></button><button data-c="italic" title="کج"><i>I</i><small>کج</small></button><button data-c="underline" title="زیرخط"><u>U</u><small>زیرخط</small></button><button data-c="formatBlock" data-v="h3" title="عنوان بزرگ"><b>H</b><small>عنوان</small></button><button data-c="insertUnorderedList" title="فهرست نقطه‌ای"><span>•</span><small>فهرست</small></button><button id="tfI" title="افزودن تصویر"><span>🖼</span><small>تصویر</small></button><button id="tfVid" title="افزودن ویدیو"><span>▶</span><small>ویدیو</small></button></div><input type="file" id="tfImg" accept="image/*" hidden></div>
-<div id="tfe" contenteditable dir="rtl" data-ph="امروز درباره چه چیزی تفکر کردید؟"></div>
+<div class="edw"><div id="tfPh" aria-hidden="true">امروز درباره چه چیزی تفکر کردید؟</div><div id="tfe" contenteditable dir="rtl" aria-label="امروز درباره چه چیزی تفکر کردید؟"></div></div>
 <button id="tfOk"></button></div>
 <div id="tfGd" hidden><svg id="gd" viewBox="0 0 800 400"></svg><p class="sub">کلمات تفکرهای تأییدشده: <b id="gl">0</b></p></div>
 </section></div>
@@ -451,8 +466,9 @@ const WK=()=>TW().w[TW().cur];let tfDay=0;
 function tfRender(){const t=TW(),w=WK();$("tfWk").innerHTML=t.w.map((_,i)=>`<option value="${i}">${weekLabel(i+1)}</option>`).join("");$("tfWk").value=t.cur;
  $("tfDays").innerHTML=DAYS.map((d,i)=>`<button class="${i===tfDay?"on":""}" data-i="${i}">${d}${w.ok[i]?" ✓":""}</button>`).join("");
  $("tfDays").querySelectorAll("button").forEach(b=>b.onclick=()=>{tfDay=+b.dataset.i;tfRender()});
- $("tfe").innerHTML=w.d[tfDay]||"";$("tfOk").className=w.ok[tfDay]?"on1":"";$("tfOk").textContent=w.ok[tfDay]?"تفکر تأیید شد ✓":"تفکر کردم";garden()}
-$("tfe").oninput=()=>{WK().d[tfDay]=$("tfe").innerHTML;save()};
+ $("tfe").innerHTML=w.d[tfDay]||"";$("tfOk").className=w.ok[tfDay]?"on1":"";$("tfOk").textContent=w.ok[tfDay]?"تفکر تأیید شد ✓":"تفکر کردم";phUpd();garden()}
+function phUpd(){const e=$("tfe");$("tfPh").hidden=!!(e.textContent.trim()||e.querySelector("img,video,iframe,li"))}
+$("tfe").oninput=()=>{WK().d[tfDay]=$("tfe").innerHTML;phUpd();save()};
 document.querySelectorAll("[data-c]").forEach(b=>b.onmousedown=e=>{e.preventDefault();document.execCommand(b.dataset.c,false,b.dataset.v?"<"+b.dataset.v+">":null);$("tfe").oninput()});
 $("tfI").onclick=()=>$("tfImg").click();
 $("tfImg").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,700/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);$("tfe").focus();document.execCommand("insertImage",false,c.toDataURL("image/jpeg",.75));$("tfe").oninput()};im.src=r.result};r.readAsDataURL(f);e.target.value=""};
